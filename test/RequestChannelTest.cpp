@@ -103,7 +103,7 @@ class TestChannelResponder : public rsocket::RSocketResponder {
     // add initial payload to testSubscriber values list
     testSubscriber_->onNext(initialPayload.moveDataToString());
 
-    requestStream->map([](auto p) { return p.moveDataToString(); })
+    requestStream->map([](auto p) { return p.clone().moveDataToString(); })
         ->subscribe(testSubscriber_);
 
     return Flowables::range(1, rangeEnd_)->map([&](int64_t v) {
@@ -269,7 +269,7 @@ TEST(RequestChannelTest, FlowControl) {
   responderSubscriber->assertValueAt(9, "Requester stream: 10 of 10");
 }
 
-TEST(RequestChannelTest, DISABLED_CancelFromRequester) {
+TEST(RequestChannelTest, CancelFromRequester) {
   int64_t responderRange = 100;
   int64_t responderSubscriberInitialRequest = 100;
 
