@@ -103,7 +103,7 @@ class TestChannelResponder : public rsocket::RSocketResponder {
     // add initial payload to testSubscriber values list
     testSubscriber_->onNext(initialPayload.moveDataToString());
 
-    requestStream->map([](auto p) { return p.clone().moveDataToString(); })
+    requestStream->map([](auto p) { return p.cloneDataToString(); })
         ->subscribe(testSubscriber_);
 
     return Flowables::range(1, rangeEnd_)->map([&](int64_t v) {
