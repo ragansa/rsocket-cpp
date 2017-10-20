@@ -301,7 +301,7 @@ TEST(RequestChannelTest, CancelFromRequestorShutsDown) {
   requestSubscriber->awaitValueCount(30);
 
   worker.getEventBase()->runInEventBaseThread([=]() {
-    requestSubscriber->cancel();
+    // requestSubscriber->cancel();
     requestSubscriber->request(50);
   });
 
