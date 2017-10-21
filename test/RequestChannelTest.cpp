@@ -299,10 +299,12 @@ TEST(RequestChannelTest, CancelFromRequestorShutsDown) {
       ->subscribe(requestSubscriber);
 
   requestSubscriber->awaitValueCount(30);
+  responderSubscriber->awaitValueCount(100);
   requestSubscriber->cancel();
+  requestSubscriber->request(70);
 
   responderSubscriber->awaitTerminalEvent();
-  EXPECT_LT(requestSubscriber->getValueCount(), 100);
+  EXPECT_EQ(requestSubscriber->getValueCount(), 30);
 
   // Responder Subscriber should be at 100
   // Requester Subscriber should be < 100
